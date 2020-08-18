@@ -1,0 +1,182 @@
+---
+title: "Stringr"
+author: "Colin Quirk"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup}
+library(tidyverse)
+library(stringr)
+
+theme_set(theme_minimal())
+
+set.seed(1)
+```
+
+```{r}
+pattern = '.*(\\d{3}).*(\\d{3}).*(\\d{4})'
+```
+
+https://regexone.com/
+
+```{r}
+phone_numbers = c(
+  "(541) 471 3918",
+  "(603)281-0308",
+  "Home: 425-707-7220",
+  "(814)-462-8074",
+  "9704443106",
+  "I don't have a phone."
+)
+```
+
+```{r}
+str_match(phone_numbers, pattern)
+```
+
+```{r}
+letters = c("abc", "abcd", "abcdefg", "xyz")
+
+str_match(letters, "abc")
+```
+
+```{r}
+numbers = c("42.", "42!", "24")
+
+str_match(numbers, "42")
+```
+
+```{r}
+favorites = c(
+  "My favorite is 42",
+  "I like 10",
+  "Umm, 33"
+)
+
+str_match(favorites, "\\d")
+```
+
+```{r}
+str_match(favorites, "\\d+")
+```
+
+```{r}
+favorites2 = c(
+  "My favorite is 42 or 12",
+  "I like 10 and 15",
+  "Umm, 33 and 35"
+)
+
+str_match_all(favorites2, "\\d+")
+```
+
+```{r}
+str_match_all(favorites2, "\\D+")
+```
+
+```{r}
+str_match_all(favorites2, "\\w+")
+```
+
+```{r}
+str_match_all(favorites2, "\\W+")
+```
+
+```{r}
+str_match_all(favorites2, "\\s+")
+```
+
+```{r}
+str_match_all(favorites2, "\\S+")
+```
+
+```{r}
+fruit = c("apple", "blueberry", "apricot", "asian pear", "banana", "fig")
+
+str_match(fruit, ".+")
+```
+
+```{r}
+str_match(fruit, "ap.+")
+```
+
+```{r}
+str_match(fruit, "[ab].+")
+```
+
+```{r}
+empty = ""
+
+str_match(empty, ".+")
+```
+
+```{r}
+str_match(empty, ".*")
+```
+
+```{r}
+grape_things = c("grape", "grapefruit", "grapevine", "grapeseed oil")
+
+str_match(grape_things, "grape.+")
+```
+
+```{r}
+str_match(grape_things, "grape.*")
+```
+
+```{r}
+cat_things = c("caterpillar", "catapult", "cattle", "house cat")
+
+str_match(cat_things, "cat.*")
+```
+
+```{r}
+str_match(cat_things, "^cat.*")
+```
+
+```{r}
+str_match(cat_things, ".*cat")
+```
+
+```{r}
+str_match(cat_things, ".*cat$")
+```
+
+```{r}
+captures = c("bulbasaur, flag, photo")
+
+str_match(captures, "(\\w*)\\W*(\\w*)\\W*(\\w*)")
+```
+
+
+```{r}
+fruit
+```
+
+```{r}
+str_match(fruit, "^(ap|ban).*$")
+```
+
+```{r}
+repetitions = c("banana", "papaya", "cancan")
+
+str_match(repetitions, "(na|pa|can){2}")
+```
+
+```{r}
+pattern = '.*(\\d{3}).*(\\d{3}).*(\\d{4})'
+
+phone_numbers = c(
+  "(541) 471 3918",
+  "(603)281-0308",
+  "Home: 425-707-7220",
+  "(814)-462-8074",
+  "9704443106",
+  "I don't have a phone."
+)
+
+str_match(phone_numbers, pattern)
+```
+
+

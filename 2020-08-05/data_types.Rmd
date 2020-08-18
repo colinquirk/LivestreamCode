@@ -1,0 +1,415 @@
+---
+title: "DataTypes"
+author: "Colin Quirk"
+date: "8/5/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+
+theme_set(theme_minimal())
+```
+
+## Motivation
+
+```{r}
+1:3
+```
+
+```{r}
+class(1:3)
+```
+
+```{r}
+typeof(1:3)
+```
+
+```{r}
+class(c(1.0, 2.0, 3.0))  # Refers to OOP
+```
+
+```{r}
+typeof(c(1.0, 2.0, 3.0))  # Refers to type
+```
+
+```{r}
+fit = lm(mpg ~ cyl, mtcars)
+class(fit)
+typeof(fit)
+```
+
+```{r}
+1 + 2 == 3
+```
+
+```{r}
+0.3 == 0.3
+```
+
+```{r}
+(0.1 + 0.2) == 0.3
+```
+
+## Basic Types
+
+```{r}
+class(TRUE)
+class(FALSE)
+```
+
+```{r}
+class(NA)
+```
+
+```{r}
+class(0.1)
+```
+
+```{r}
+class(1)
+typeof(1)
+```
+
+```{r}
+class(1 + 1)
+```
+
+```{r}
+class(1L)
+```
+
+```{r}
+class(1L + 1L)
+```
+
+```{r}
+class(1.1L)
+```
+
+```{r}
+class(1.0L)
+```
+
+```{r}
+class(3 + 2i)
+```
+
+```{r}
+class('a')
+```
+
+```{r}
+class("a")
+```
+
+```{r}
+class("abc")
+```
+
+```{r}
+class("123")
+```
+
+```{r}
+class("TRUE")
+```
+
+```{r}
+Sys.Date()
+```
+
+```{r}
+class(Sys.Date())
+```
+
+```{r}
+Sys.Date() - 1
+```
+
+
+## Type Conversion
+
+```{r}
+class(1)
+```
+
+```{r}
+class(as.integer(1))
+```
+
+```{r}
+as.integer(TRUE)
+```
+
+```{r}
+as.character(TRUE)
+```
+
+```{r}
+as.integer(c(TRUE, FALSE, TRUE, FALSE))
+```
+
+```{r}
+mean(as.integer(c(TRUE, FALSE, TRUE, FALSE)))
+```
+
+```{r}
+mean(c(TRUE, FALSE, TRUE, FALSE))
+```
+
+```{r}
+mean(c("1", "0", "1", "0"))
+```
+
+## Data Structures
+
+```{r}
+1:3
+```
+
+```{r}
+class(1:3)
+```
+
+```{r}
+c(1,2,3)
+```
+
+```{r}
+class(c(TRUE, FALSE, TRUE))
+```
+
+```{r}
+class(c("apple", "banana", "kiwi"))
+```
+
+```{r}
+c("apple", TRUE, 1)
+```
+
+```{r}
+class(c("apple", TRUE, 1))
+```
+
+```{r}
+my_vector = c("apple", TRUE, 1)
+my_vector[2]
+```
+
+```{r}
+my_vector[-1]
+```
+
+
+```{r}
+my_vector[c(1, 3)]
+```
+
+```{r}
+my_vector[c(FALSE, TRUE, TRUE)]
+```
+
+```{r}
+my_vector = c(10, 20, 30)
+my_vector < 25
+```
+
+```{r}
+my_vector[my_vector < 25]
+```
+
+#### Factors
+
+```{r}
+myfactor = factor(c("red", "blue", "green", "red", "blue", "green"))
+myfactor
+```
+
+```{r}
+levels(myfactor)
+```
+
+```{r}
+myfactor2 = factor(c("red", "blue", "green", "red", "blue", "green"),
+                   levels=c("red", "blue", "green"))
+myfactor2
+```
+
+```{r}
+myfactor3 = factor(c("red", "blue", "green", "red", "blue", "green"),
+                   levels=c("red", "blue", "green"),
+                   labels=c("r", "g", "b"))
+myfactor3
+```
+
+```{r}
+class(myfactor)
+```
+
+```{r}
+typeof(myfactor)
+```
+
+```{r}
+as.integer(myfactor)
+```
+
+```{r}
+myfactor
+```
+
+```{r}
+as.integer(as.factor(c(5, 15, 25)))
+```
+
+```{r}
+as.character(as.factor(c(5, 15, 25)))
+```
+
+```{r}
+as.integer(as.character(as.factor(c(5, 15, 25))))
+```
+
+```{r}
+head(mtcars)
+```
+
+```{r}
+summary(lm(mpg ~ cyl, mtcars))
+```
+
+```{r}
+summary(lm(mpg ~ factor(cyl), mtcars))
+```
+
+```{r}
+ggplot(mtcars, aes(x = cyl, y = mpg)) +
+  stat_summary(geom='bar')
+```
+
+```{r}
+ggplot(mtcars, aes(x = factor(cyl), y = mpg)) +
+  stat_summary(geom='bar')
+```
+
+```{r}
+ggplot(mtcars, aes(x = factor(cyl, labels=c("four", "six", "eight")), y = mpg)) +
+  stat_summary(geom='bar')
+```
+
+#### Lists
+
+```{r}
+mylist = list("apple", TRUE, 1)
+mylist
+```
+
+```{r}
+class(list("apple", TRUE, 1))
+```
+
+```{r}
+mylist[1]
+```
+
+```{r}
+class(mylist[1])
+```
+
+```{r}
+mylist[[1]]
+```
+
+```{r}
+class(mylist[[1]])
+```
+
+```{r}
+mylist[c(TRUE, FALSE, TRUE)]
+```
+
+```{r}
+# errors
+# mylist[[c(TRUE, FALSE, TRUE)]]
+```
+
+```{r}
+mylist2 = list(c("apple", "banana", "kiwi"), TRUE, 1)
+mylist2
+```
+
+```{r}
+mylist2[[1]]
+```
+
+```{r}
+class(mylist2[[1]])
+```
+
+```{r}
+sales = list(fruit = c("apple", "banana", "kiwi"),
+             sold = c(10, 30, 4))
+
+sales
+```
+
+```{r}
+sales[1]
+```
+
+```{r}
+class(sales[1])
+```
+
+```{r}
+class(sales[[1]])
+```
+
+```{r}
+sales$fruit
+```
+
+```{r}
+class(sales$fruit)
+```
+
+#### Data Frames
+
+```{r}
+head(mtcars)
+```
+
+```{r}
+class(mtcars)
+```
+
+```{r}
+typeof(mtcars)
+```
+
+```{r}
+mtcars[[1]]
+```
+
+```{r}
+mtcars$mpg
+```
+
+```{r}
+mtcars[1:10, 1:3]
+```
+
+```{r}
+mtcars[mtcars$mpg < 20, 1:3]
+```
+
+```{r}
+# Errors
+#mtcars[mtcars$mpg < 20]
+```
+
+```{r}
+mtcars[mtcars$mpg < 20,]
+```
+
