@@ -1,0 +1,94 @@
+---
+title: "brms Tutorial"
+author: "Colin Quirk"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup}
+library(tidyverse)
+library(brms)
+
+theme_set(theme_minimal())
+
+set.seed(1)
+```
+
+```{r}
+chimps = read_delim('~/Desktop/chimps.csv', delim=';')
+```
+
+```{r}
+chimps_summarised = chimps %>% 
+  group_by(actor, condition) %>% 
+  summarise(mean_chose_prosocial = mean(chose_prosoc))
+```
+
+```{r}
+t.test(chimps_summarised$mean_chose_prosocial[chimps_summarised$condition==0],
+       chimps_summarised$mean_chose_prosocial[chimps_summarised$condition==1])
+```
+
+```{r}
+fit = lm(mean_chose_prosocial ~ condition, data=chimps_summarised)
+
+summary(fit)
+```
+
+```{r}
+fit2 = lm(mean_chose_prosocial ~ condition + factor(actor), data=chimps_summarised)
+
+summary(fit2)
+```
+
+```{r}
+library(lme4)
+
+fit3 = lmer(mean_chose_prosocial ~ condition + (1 | actor), data=chimps_summarised)
+
+summary(fit3)
+```
+
+```{r}
+fit4 = lmer(mean_chose_prosocial ~ condition + (condition | actor), data=chimps_summarised)
+
+summary(fit4)
+```
+
+```{r}
+fit4 = brm(mean_chose_prosocial ~ condition + (condition | actor),
+           data=chimps_summarised,
+           prior = set_prior("student_t(3, 0.6, 3)", class = "Intercept"),
+           iter = 1000
+           )
+```
+
+```{r}
+summary(fit4)
+```
+
+```{r}
+get_prior(mean_chose_prosocial ~ condition + (condition | actor),
+          data=chimps_summarised)
+```
+
+```{r}
+fit5 = brm(chose_prosoc ~ factor(condition) + (1 | actor),
+           data=chimps,
+           family = binomial(),
+           iter = 1000
+           )
+```
+
+```{r}
+summary(fit5)
+```
+
+```{r}
+summary(glm(chose_prosoc ~ condition, data = chimps, family = binomial()))
+```
+
+```{r}
+conditional_effects(fit5)
+```
+
