@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Stroop Experiment</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <center>
+        <div>
+            <p>Welcome to the experiment!</p>
+            <canvas id="experiment" width=600px height=600px></canvas>
+        </div>
+    </center>
+
+    <style>
+        #experiment {
+            border: 2px solid black;
+        }
+    </style>
+
+    <script>
+        var words = ["green", "blue"];
+        var colors = ["#00FF00", "#0000FF"];
+        var trials = 5;
+        var trialNum = 0;
+
+        function getRandom(items) {
+            return items[Math.floor(Math.random() * items.length)]
+        }
+
+        function clearCanvas() {
+            window.ctx.clearRect(0, 0, window.canvas.width, window.canvas.height);
+        }
+
+        function writeText(text, color="#000000") {
+            clearCanvas();
+            window.ctx.fillStyle = color;
+            window.ctx.fillText(text, window.canvas.width / 2, window.canvas.height / 2);
+        }
+
+        function endExperiment() {
+            writeText('Thanks for participating!')
+        }
+
+        function displayTrial() {
+            trialNum = trialNum + 1;
+
+            if (trialNum >= trials) {
+                endExperiment();
+            } else {
+                clearCanvas();
+                word = getRandom(words);
+                color = getRandom(colors);
+                writeText(word, color);
+            }
+        }
+
+        function setup() {
+            window.canvas = document.getElementById("experiment");
+            window.ctx = window.canvas.getContext("2d");
+            window.ctx.font = "16px Arial";
+            window.ctx.textAlign = "center";
+        }
+
+        function instructions() {
+            writeText("Press 'g' for 'green' and 'b' for 'blue.' Ignore word color. Press Space.");
+            $(document).keypress(function(e) {
+                if (e.keyCode == 32) {
+                  displayTrial();  
+                }
+            })
+        }
+
+        function main() {
+            setup();
+            instructions();
+        }
+
+        $(window).on('load', main);
+    </script>
+
+</body>
+
+</html>
